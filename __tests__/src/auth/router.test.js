@@ -24,7 +24,7 @@ afterAll(async (done) => {
 });
 
 
-describe('Auth Router', () => {
+xdescribe('Auth Router', () => {
 
   Object.keys(users).forEach(userType => {
 
@@ -34,7 +34,7 @@ describe('Auth Router', () => {
 
         const response = await mockRequest.post('/signup').send(users[userType]);
         const userObject = response.body;
-
+        // console.log('createone obj1', userObject)
         expect(response.status).toBe(201);
         expect(userObject.token).toBeDefined();
         expect(userObject.user.id).toBeDefined();
@@ -48,6 +48,7 @@ describe('Auth Router', () => {
           .auth(users[userType].username, users[userType].password);
 
         const userObject = response.body;
+        // console.log('createone obj2', userObject.user)
         expect(response.status).toBe(200);
         expect(userObject.token).toBeDefined();
         expect(userObject.user.id).toBeDefined();

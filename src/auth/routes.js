@@ -11,12 +11,12 @@ authRouter.use(express.json());
 
 authRouter.post('/signup', async (req, res, next) => {
   try {
-    let userRecord = await users.create(req.body);
+    let userRecord = await Users.create(req.body);
     const output = {
       user: userRecord,
       token: userRecord.token
     };
-    res.status(200).json(output);
+    res.status(201).json(output);
   } catch (e) {
     next(e.message);
   }
@@ -27,8 +27,7 @@ authRouter.post('/signin', basicAuth(Users), (req, res, next) => {
     user: req.user,
     token: req.user.token
   };
-  console.log('Inside signin route', user.token);
-  res.status(200).json(req.user);
+  res.status(200).json(user);
 });
 
 authRouter.get('/users', bearerAuth(Users), async (req, res, next) => {
@@ -42,6 +41,5 @@ authRouter.get('/users', bearerAuth(Users), async (req, res, next) => {
 authRouter.get('/secret', bearerAuth(Users), async (req, res, next) => {
   res.status(200).send("Welcome to the secret area!")
 });
-
 
 module.exports = authRouter;
