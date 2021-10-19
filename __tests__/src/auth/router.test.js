@@ -24,7 +24,7 @@ afterAll(async (done) => {
 });
 
 
-describe('Auth Router', () => {
+xdescribe('Auth Router', () => {
 
   Object.keys(users).forEach(userType => {
 

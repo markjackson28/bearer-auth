@@ -22,10 +22,10 @@ const userSchema = (sequelize, DataTypes) => {
       get() {
         return jwt.sign({ username: this.username }, SECRET);
       },
-      set(tokenObj) {
-        let token = jwt.sign(tokenObj, SECRET);
-        return token;
-      }
+      // set(tokenObj) {
+      //   let token = jwt.sign(tokenObj, SECRET);
+      //   return token;
+      // }
     }
   });
 
