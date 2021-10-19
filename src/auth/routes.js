@@ -3,9 +3,11 @@
 const express = require('express');
 const authRouter = express.Router();
 
-const { users } = require('./models/index.js');
+const { Users } = require('./models/index.js');
 const basicAuth = require('./middleware/basic.js')
 const bearerAuth = require('./middleware/bearer.js')
+
+authRouter.use(express.json());
 
 authRouter.post('/signup', async (req, res, next) => {
   try {
@@ -20,21 +22,24 @@ authRouter.post('/signup', async (req, res, next) => {
   }
 });
 
-authRouter.post('/signin', basicAuth, (req, res, next) => {
+authRouter.post('/signin', basicAuth(Users), (req, res, next) => {
   const user = {
-    user: request.user,
-    token: request.user.token
+    user: req.user,
+    token: req.user.token
   };
-  res.status(200).json(user);
+  console.log('Inside signin route', user.token);
+  res.status(200).json(req.user);
 });
 
-authRouter.get('/users', bearerAuth, async (req, res, next) => {
+authRouter.get('/users', bearerAuth(Users), async (req, res, next) => {
+
   const users = await Users.findAll({});
   const list = users.map(user => user.username);
   res.status(200).json(list);
+
 });
 
-authRouter.get('/secret', bearerAuth, async (req, res, next) => {
+authRouter.get('/secret', bearerAuth(Users), async (req, res, next) => {
   res.status(200).send("Welcome to the secret area!")
 });
 
