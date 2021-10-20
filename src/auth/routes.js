@@ -9,6 +9,10 @@ const bearerAuth = require('./middleware/bearer.js')
 
 authRouter.use(express.json());
 
+authRouter.get('/', (req, res, next) => {
+  res.status(200).send("Bearer Server Lab");
+});
+
 authRouter.post('/signup', async (req, res, next) => {
   try {
     let userRecord = await Users.create(req.body);
@@ -39,7 +43,7 @@ authRouter.get('/users', bearerAuth(Users), async (req, res, next) => {
 });
 
 authRouter.get('/secret', bearerAuth(Users), async (req, res, next) => {
-  res.status(200).send("Welcome to the secret area!")
+  res.status(200).send("Welcome to the secret area!");
 });
 
 module.exports = authRouter;
